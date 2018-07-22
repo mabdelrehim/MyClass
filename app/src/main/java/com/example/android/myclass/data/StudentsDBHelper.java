@@ -24,6 +24,11 @@ public class StudentsDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENTS_TABLE);
     }
 
+    /**
+     * This method discards the old table of data and calls onCreate to recreate a new one.
+     * This only occurs when the version number for this database (DATABASE_VERSION) is incremented.
+     */
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 

@@ -1,4 +1,4 @@
-package com.example.android.myclass.content;
+package com.example.android.myclass.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 
 import com.example.android.myclass.data.StudentsContract;
 import com.example.android.myclass.data.StudentsDBHelper;
+
+import static com.example.android.myclass.data.StudentsContract.StudentsEntry.TABLE_NAME;
 
 public class StudentContentProvider extends ContentProvider {
 
@@ -54,7 +56,11 @@ public class StudentContentProvider extends ContentProvider {
             case STUDENTS:
                 //query for all students
                 retVal = db.query(StudentsContract.StudentsEntry.TABLE_NAME,
-                        projection, selection, selectionArgs, null, null,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
                         sortOrder);
                 break;
             default:
@@ -68,7 +74,20 @@ public class StudentContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case STUDENTS:
+                // directory
+                return "vnd.android.cursor.dir" + "/" + StudentsContract.AUTHORITY + "/" +
+                        StudentsContract.PATH_STUDENTS;
+            case STUDENT_WITH_ID:
+                // single item type
+                return "vnd.android.cursor.item" + "/" + StudentsContract.AUTHORITY + "/" +
+                        StudentsContract.PATH_STUDENTS;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
     }
 
     @Nullable
@@ -98,12 +117,65 @@ public class StudentContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+        // Get access to the database and write URI matching code to recognize a single item
+        final SQLiteDatabase db = mStudentDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        // Keep track of the number of deleted tasks
+        int studentsDeleted; // starts as 0
+
+        // Write the code to delete a single row of data
+        // [Hint] Use selections to delete an item by its row ID
+        switch (match) {
+            // Handle the single item case, recognized by the ID included in the URI path
+            case STUDENT_WITH_ID:
+                // Get the student ID from the URI path
+                String id = uri.getPathSegments().get(1);
+                // Use selections/selectionArgs to filter for this ID
+                studentsDeleted = db.delete(StudentsContract.StudentsEntry.TABLE_NAME,
+                        "_id=?", new String[]{id});
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        // Notify the resolver of a change and return the number of items deleted
+        if (studentsDeleted != 0) {
+            // A task was deleted, set notification
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Return the number of students deleted
+        return studentsDeleted;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s,
                       @Nullable String[] strings) {
-        return 0;
+        //Keep track of if an update occurs
+        int studentsUpdated;
+
+        // match code
+        int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case STUDENT_WITH_ID:
+                //update a single task by getting the id
+                String id = uri.getPathSegments().get(1);
+                //using selections
+                studentsUpdated = mStudentDbHelper.getWritableDatabase().update
+                        (TABLE_NAME, contentValues, "_id=?", new String[]{id});
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        if (studentsUpdated != 0) {
+            //set notifications if a task was updated
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // return number of tasks updated
+        return studentsUpdated;
     }
 }
