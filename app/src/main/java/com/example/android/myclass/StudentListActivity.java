@@ -49,6 +49,7 @@ public class StudentListActivity extends AppCompatActivity implements
 
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
+    private boolean mTwoPane;
     RecyclerView mRecyclerView;
 
 
@@ -56,6 +57,18 @@ public class StudentListActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
+
+        if (findViewById(R.id.student_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
 
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.student_list);
@@ -65,7 +78,7 @@ public class StudentListActivity extends AppCompatActivity implements
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the adapter and attach it to the RecyclerView
-        mAdapter = new CustomCursorAdapter(this);
+        mAdapter = new CustomCursorAdapter(this, this, mTwoPane);
         mRecyclerView.setAdapter(mAdapter);
 
         /*
@@ -73,7 +86,7 @@ public class StudentListActivity extends AppCompatActivity implements
          An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
          and uses callbacks to signal when a user is performing these actions.
          */
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+       /* new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
@@ -89,10 +102,10 @@ public class StudentListActivity extends AppCompatActivity implements
                 // COMPLETED (1) Construct the URI for the item to delete
                 //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
                 // Retrieve the id of the task to delete
-                int id = (int) viewHolder.itemView.getTag();
+                StudentItem item = (StudentItem) viewHolder.itemView.getTag();
 
                 // Build appropriate uri with String row id appended
-                String stringId = Integer.toString(id);
+                String stringId = Integer.toString(item.id);
                 Uri uri = StudentsContract.StudentsEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
 
@@ -104,7 +117,7 @@ public class StudentListActivity extends AppCompatActivity implements
                         StudentListActivity.this);
 
             }
-        }).attachToRecyclerView(mRecyclerView);
+        }).attachToRecyclerView(mRecyclerView);*/
 
         /*
          Set the Floating Action Button (FAB) to its corresponding View.

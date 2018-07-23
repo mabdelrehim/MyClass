@@ -36,7 +36,7 @@ public class StudentContent {
 
     public static void addItem(StudentItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(Integer.toString(item.id), item);
         COUNT ++;
     }
 

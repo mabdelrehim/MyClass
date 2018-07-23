@@ -1,13 +1,17 @@
 package com.example.android.myclass;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.myclass.content.StudentContent;
+import com.example.android.myclass.data.StudentItem;
 import com.example.android.myclass.data.StudentsContract;
 
 public class CustomCursorAdapter
@@ -16,6 +20,30 @@ public class CustomCursorAdapter
     // Class variables for the Cursor that holds task data and the Context
     private Cursor mCursor;
     private Context mContext;
+    private boolean mTwoPane;
+    private StudentListActivity mParentActivity;
+
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            StudentItem item = (StudentItem) view.getTag();
+            if (mTwoPane) {
+                Bundle arguments = new Bundle();
+                arguments.putString(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
+                StudentDetailFragment fragment = new StudentDetailFragment();
+                fragment.setArguments(arguments);
+                mParentActivity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.student_detail_container, fragment)
+                        .commit();
+            } else {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, StudentDetailActivity.class);
+                intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
+
+                context.startActivity(intent);
+            }
+        }
+    };
 
 
     /**
@@ -23,8 +51,10 @@ public class CustomCursorAdapter
      *
      * @param mContext the current Context
      */
-    public CustomCursorAdapter(Context mContext) {
+    public CustomCursorAdapter(Context mContext, StudentListActivity parent, boolean mTwoPane) {
         this.mContext = mContext;
+        this.mParentActivity = parent;
+        this.mTwoPane = mTwoPane;
     }
 
 
@@ -56,16 +86,34 @@ public class CustomCursorAdapter
         // Indices for the _id, studentName, and priority columns
         int idIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry._ID);
         int nameIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME);
+        int classNameIndex = mCursor.getColumnIndex
+                (StudentsContract.StudentsEntry.COLUMN_CLASS_NAME);
+        int emailIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry.EMAIL);
+        int parentEmailIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry.PARENT_EMAIL);
+        int daysAbsentIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry.DAYS_ABSENT);
 
         mCursor.moveToPosition(position); // get to the right location in the cursor
+
+        StudentItem item = new StudentItem(mCursor.getInt(idIndex),
+                mCursor.getString(nameIndex),
+                mCursor.getString(classNameIndex),
+                mCursor.getString(emailIndex),
+                mCursor.getString(parentEmailIndex),
+                mCursor.getInt(daysAbsentIndex));
+        StudentContent.ITEM_MAP.put(Integer.toString(item.id), item);
+
+
 
         // Determine the values of the wanted data
         final int id = mCursor.getInt(idIndex);
         String studentName = mCursor.getString(nameIndex);
 
         //Set values
-        holder.itemView.setTag(id);
+        holder.itemView.setTag(item);
         holder.studentNameView.setText(studentName);
+        holder.numView.setText(String.valueOf(position + 1));
+
+        holder.itemView.setOnClickListener(mOnClickListener);
 
     }
 
@@ -107,6 +155,7 @@ public class CustomCursorAdapter
 
         // Class variables for the task description and priority TextViews
         TextView studentNameView;
+        TextView numView;
 
         /**
          * Constructor for the TaskViewHolders.
@@ -117,6 +166,7 @@ public class CustomCursorAdapter
             super(itemView);
 
             studentNameView = (TextView) itemView.findViewById(R.id.content);
+            numView = (TextView) itemView.findViewById(R.id.id_text);
         }
     }
 
