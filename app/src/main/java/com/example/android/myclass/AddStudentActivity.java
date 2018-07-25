@@ -1,7 +1,6 @@
 package com.example.android.myclass;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.myclass.data.StudentsContract;
-import com.example.android.myclass.data.StudentsDBHelper;
-import com.example.android.myclass.data.TestUtil;
 
 public class AddStudentActivity extends AppCompatActivity {
 

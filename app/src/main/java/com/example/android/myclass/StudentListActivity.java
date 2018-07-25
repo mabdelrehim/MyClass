@@ -1,13 +1,8 @@
 package com.example.android.myclass;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -16,21 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.example.android.myclass.content.StudentContent;
-import com.example.android.myclass.data.StudentItem;
 import com.example.android.myclass.data.StudentsContract;
-import com.example.android.myclass.data.StudentsDBHelper;
-import com.example.android.myclass.data.TestUtil;
-
-import java.util.List;
 
 /**
  * An activity representing a list of Students. This activity
@@ -129,6 +113,7 @@ public class StudentListActivity extends AppCompatActivity implements
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // code here
                 // Create a new intent to start an AddTaskActivity
                 Intent addStudentIntent = new Intent(StudentListActivity.this,
                         AddStudentActivity.class);

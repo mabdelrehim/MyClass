@@ -11,12 +11,11 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.myclass.data.StudentsContract;
-import com.example.android.myclass.data.StudentsDBHelper;
-
 import static com.example.android.myclass.data.StudentsContract.StudentsEntry.TABLE_NAME;
 
-public class StudentContentProvider extends ContentProvider {
+
+//TODO edit content provider to accommodate for new databases
+public class MyContentProvider extends ContentProvider {
 
     public static final int STUDENTS = 100;
     public static final int STUDENT_WITH_ID = 101;
@@ -35,12 +34,12 @@ public class StudentContentProvider extends ContentProvider {
         return uriMatcher;
     }
 
-    private StudentsDBHelper mStudentDbHelper;
+    private MyDBHelper mStudentDbHelper;
 
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        mStudentDbHelper = new StudentsDBHelper(context);
+        mStudentDbHelper = new MyDBHelper(context);
 
         return true;
     }

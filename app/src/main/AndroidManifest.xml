@@ -31,7 +31,7 @@
         <activity android:name=".AddStudentActivity"></activity>
 
 
-        <provider android:name="com.example.android.myclass.data.StudentContentProvider"
+        <provider android:name="com.example.android.myclass.data.MyContentProvider"
             android:authorities="com.example.android.myclass"
             android:enabled="true"
             android:exported="true" >
