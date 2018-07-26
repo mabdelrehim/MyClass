@@ -2,6 +2,7 @@ package com.example.android.myclass;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -14,6 +15,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+
+import com.example.android.myclass.data.StudentItem;
 import com.example.android.myclass.data.StudentsContract;
 
 /**
@@ -70,7 +73,7 @@ public class StudentListActivity extends AppCompatActivity implements
          An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
          and uses callbacks to signal when a user is performing these actions.
          */
-       /* new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
@@ -101,7 +104,7 @@ public class StudentListActivity extends AppCompatActivity implements
                         StudentListActivity.this);
 
             }
-        }).attachToRecyclerView(mRecyclerView);*/
+        }).attachToRecyclerView(mRecyclerView);
 
         /*
          Set the Floating Action Button (FAB) to its corresponding View.

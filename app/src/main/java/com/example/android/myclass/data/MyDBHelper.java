@@ -25,14 +25,45 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 StudentsContract.StudentsEntry.DAYS_ABSENT + " INTEGER NOT NULL" + ")";
 
 
-        final String SQL_CREATE_ASSIGNMENTS_TABLE;
-        final String SQL_CREATE_ASSIGNMENTS_STUDENTS_TABLE;
-        final String SQL_CREATE_CLASSES_TABLE;
+        final String SQL_CREATE_ASSIGNMENTS_TABLE = "CREATE TABLE " +
+                AssignmentsContract.AssignmentsEntry.TABLE_NAME + "(" +
+                AssignmentsContract.AssignmentsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_NAME + " TEXT NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME + " TEXT NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_TYPE + " TEXT NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_DATE_ASSIGNED + " TEXT NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_DUE_DATE + " TEXT NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_TOTAL_GRADE + " INTEGER NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_DETAILS + " TEXT NOT NULL" + ")";
+
+        //TODO add foreign keys to assignment id, student id, student name, and class name
+        final String SQL_CREATE_ASSIGNMENTS_STUDENTS_TABLE = "CREATE TABLE " +
+                AssignmentStudentContract.AssignmentsStudentsEntry.TABLE_NAME +
+                "(" +
+                AssignmentStudentContract.AssignmentsStudentsEntry._ID +
+                " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID +
+                " INTEGER NOT NULL," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID +
+                " INTEGER NOT NULL," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME +
+                " TEXT NOT NULL," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME +
+                " TEXT NOT NULL," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_GRADE +
+                " INTEGER NOT NULL," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_COMMENTS +
+                " TEXT NOT NULL" + ")";
+
+        final String SQL_CREATE_CLASSES_TABLE = "CREATE TABLE " +
+                ClassContract.ClassEntry.TABLE_NAME + "(" +
+                ClassContract.ClassEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ClassContract.ClassEntry.COLUMN_CLASS_NAME + "TEXT NOT NULL" + ")";
 
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENTS_TABLE);
-        /*sqLiteDatabase.execSQL(SQL_CREATE_ASSIGNMENTS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_ASSIGNMENTS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ASSIGNMENTS_STUDENTS_TABLE);
-        sqLiteDatabase.execSQL(SQL_CREATE_CLASSES_TABLE);*/
+        sqLiteDatabase.execSQL(SQL_CREATE_CLASSES_TABLE);
     }
 
     /**
@@ -45,7 +76,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         // only refreshes the database you should modify for different behavior
 
-        sqLiteDatabase.execSQL("Drop Table IF EXISTS " + StudentsContract.StudentsEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +
+                StudentsContract.StudentsEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +
+                AssignmentsContract.AssignmentsEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +
+                AssignmentStudentContract.AssignmentsStudentsEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +
+                ClassContract.ClassEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
