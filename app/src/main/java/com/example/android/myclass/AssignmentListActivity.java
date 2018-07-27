@@ -1,9 +1,12 @@
 package com.example.android.myclass;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -11,31 +14,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.android.myclass.data.AssignmentItem;
+import com.example.android.myclass.data.AssignmentsContract;
 import com.example.android.myclass.data.StudentItem;
 import com.example.android.myclass.data.StudentsContract;
 
-/**
- * An activity representing a list of Students. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link StudentDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
-public class StudentListActivity extends AppCompatActivity implements
+public class AssignmentListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
+    /*@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_assignment_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }*/
+
     // Constants for logging and referring to a unique loader
-    private static final String TAG = StudentListActivity.class.getSimpleName();
+    private static final String TAG = AssignmentListActivity.class.getSimpleName();
     private static final int TASK_LOADER_ID = 0;
 
     // Member variables for the adapter and RecyclerView
-    private StudentsCursorAdapter mAdapter;
+    private AssignmentsCursorAdapter mAdapter;
     private boolean mTwoPane;
     RecyclerView mRecyclerView;
 
@@ -43,14 +57,13 @@ public class StudentListActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_list);
+        setContentView(R.layout.activity_assignment_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        toolbar.setTitle("Assignments");
 
         //commented code for larger screen implementation
-        //deprecated
         /*if (findViewById(R.id.student_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -60,14 +73,14 @@ public class StudentListActivity extends AppCompatActivity implements
         }*/
 
         // Set the RecyclerView to its corresponding view
-        mRecyclerView = (RecyclerView) findViewById(R.id.student_list);
+        mRecyclerView = (RecyclerView) findViewById(R.id.assignment_list);
 
         // Set the layout for the RecyclerView to be a linear layout, which measures and
         // positions items within a RecyclerView into a linear list
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the adapter and attach it to the RecyclerView
-        mAdapter = new StudentsCursorAdapter(this, this, mTwoPane);
+        mAdapter = new AssignmentsCursorAdapter(this, this, mTwoPane);
         mRecyclerView.setAdapter(mAdapter);
 
         /*
@@ -91,11 +104,11 @@ public class StudentListActivity extends AppCompatActivity implements
                 // COMPLETED (1) Construct the URI for the item to delete
                 //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
                 // Retrieve the id of the task to delete
-                StudentItem item = (StudentItem) viewHolder.itemView.getTag();
+                AssignmentItem item = (AssignmentItem) viewHolder.itemView.getTag();
 
                 // Build appropriate uri with String row id appended
                 String stringId = Integer.toString(item.id);
-                Uri uri = StudentsContract.StudentsEntry.CONTENT_URI;
+                Uri uri = AssignmentsContract.AssignmentsEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
 
                 // COMPLETED (2) Delete a single row of data using a ContentResolver
@@ -103,7 +116,7 @@ public class StudentListActivity extends AppCompatActivity implements
 
                 // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
                 getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
-                        StudentListActivity.this);
+                        AssignmentListActivity.this);
 
             }
         }).attachToRecyclerView(mRecyclerView);
@@ -120,9 +133,15 @@ public class StudentListActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 // code here
                 // Create a new intent to start an AddTaskActivity
-                Intent addStudentIntent = new Intent(StudentListActivity.this,
+                //TODO: replace test code
+
+                // code here
+                // Create a new intent to start an AddTaskActivity
+                Intent addStudentIntent = new Intent(AssignmentListActivity.this,
                         AddStudentActivity.class);
                 startActivity(addStudentIntent);
+
+
             }
         });
 
@@ -183,7 +202,7 @@ public class StudentListActivity extends AppCompatActivity implements
                 // [Hint] use a try/catch block to catch any errors in loading data
 
                 try {
-                    return getContentResolver().query(StudentsContract.StudentsEntry.CONTENT_URI,
+                    return getContentResolver().query(AssignmentsContract.AssignmentsEntry.CONTENT_URI,
                             null,
                             null,
                             null,
@@ -230,5 +249,7 @@ public class StudentListActivity extends AppCompatActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
+
+
 
 }

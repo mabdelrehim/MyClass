@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.myclass.content.StudentContent;
+import com.example.android.myclass.content.StudentsContent;
 import com.example.android.myclass.data.StudentItem;
 
 /**
@@ -45,10 +45,11 @@ public class StudentDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = StudentContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = StudentsContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.
+                    findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.studentName);
             }
