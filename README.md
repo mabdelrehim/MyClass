@@ -1,9 +1,9 @@
 # MyClass
-# X-code interns team 4
-# Mohamed Elsayed
-# Yasmine Medhat
-# Loujaina Ragheb
-# Effat Hassan
+ X-code interns team 4
+ Mohamed Elsayed
+ Yasmine Medhat
+ Loujaina Ragheb
+ Effat Hassan
 
 resources:
 
