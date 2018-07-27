@@ -30,7 +30,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 AssignmentsContract.AssignmentsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_NAME + " TEXT NOT NULL," +
                 AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME + " TEXT NOT NULL," +
-                AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_TYPE + " TEXT NOT NULL," +
+                AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_TYPE + " INTEGER NOT NULL," +
                 AssignmentsContract.AssignmentsEntry.COLUMN_DATE_ASSIGNED + " TEXT NOT NULL," +
                 AssignmentsContract.AssignmentsEntry.COLUMN_DUE_DATE + " TEXT NOT NULL," +
                 AssignmentsContract.AssignmentsEntry.COLUMN_TOTAL_GRADE + " INTEGER NOT NULL," +

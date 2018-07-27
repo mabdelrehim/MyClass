@@ -11,10 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static com.example.android.myclass.data.StudentsContract.StudentsEntry.TABLE_NAME;
 
-
-//TODO edit content provider to accommodate for new databases
 public class MyContentProvider extends ContentProvider {
 
     public static final int STUDENTS = 100;
@@ -64,12 +61,12 @@ public class MyContentProvider extends ContentProvider {
         return uriMatcher;
     }
 
-    private MyDBHelper mStudentDbHelper;
+    private MyDBHelper dbHelper;
 
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        mStudentDbHelper = new MyDBHelper(context);
+        dbHelper = new MyDBHelper(context);
 
         return true;
     }
@@ -78,7 +75,7 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        final SQLiteDatabase db = mStudentDbHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
         int match = sUriMatcher.match(uri);
         Cursor retVal;
         switch (match) {
@@ -177,7 +174,7 @@ public class MyContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        final SQLiteDatabase db = mStudentDbHelper.getWritableDatabase();
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
         Uri retVal;
         long id;
@@ -233,12 +230,11 @@ public class MyContentProvider extends ContentProvider {
         return retVal;
     }
 
-    //TODO: complete the delete and update methods
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection,
                       @Nullable String[] selectionArgs) {
         // Get access to the database and write URI matching code to recognize a single item
-        final SQLiteDatabase db = mStudentDbHelper.getWritableDatabase();
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         int match = sUriMatcher.match(uri);
         // Keep track of the number of deleted tasks
@@ -260,12 +256,22 @@ public class MyContentProvider extends ContentProvider {
                 studentsDeleted = db.delete(StudentsContract.StudentsEntry.TABLE_NAME,
                         "_id=?", new String[]{id});
                 break;
+            case STUDENTS:
+                // Use selections/selectionArgs to filter for this ID
+                studentsDeleted = db.delete(StudentsContract.StudentsEntry.TABLE_NAME,
+                        selection, selectionArgs);
+                break;
             case ASSIGNMENT_WITH_ID:
                 // Get the student ID from the URI path
                 id = uri.getPathSegments().get(1);
                 // Use selections/selectionArgs to filter for this ID
                 assignmentsDeleted = db.delete(AssignmentsContract.AssignmentsEntry.TABLE_NAME,
                         "_id=?", new String[]{id});
+                break;
+            case ASSIGNMENTS:
+                // Use selections/selectionArgs to filter for this ID
+                assignmentsDeleted = db.delete(AssignmentsContract.AssignmentsEntry.TABLE_NAME,
+                        selection, selectionArgs);
                 break;
             case CLASS_WITH_ID:
                 // Get the student ID from the URI path
@@ -274,6 +280,11 @@ public class MyContentProvider extends ContentProvider {
                 classesDeleted = db.delete(ClassContract.ClassEntry.TABLE_NAME,
                         "_id=?", new String[]{id});
                 break;
+            case CLASSES:
+                // Use selections/selectionArgs to filter for this ID
+                classesDeleted = db.delete(ClassContract.ClassEntry.TABLE_NAME,
+                        selection, selectionArgs);
+                break;
             case ASSIGNMENT_STUDENT_WITH_ID:
                 // Get the student ID from the URI path
                 id = uri.getPathSegments().get(1);
@@ -281,6 +292,11 @@ public class MyContentProvider extends ContentProvider {
                 assignmentsStudentsDeleted = db.delete(AssignmentStudentContract.
                                 AssignmentsStudentsEntry.TABLE_NAME, "_id=?",
                         new String[]{id});
+                break;
+            case ASSIGNMENTS_STUDENTS:
+                // Use selections/selectionArgs to filter for this ID
+                assignmentsStudentsDeleted = db.delete(AssignmentStudentContract
+                                .AssignmentsStudentsEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -313,21 +329,74 @@ public class MyContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s,
-                      @Nullable String[] strings) {
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues,
+                      @Nullable String selection, @Nullable String[] selectionArgs) {
         //Keep track of if an update occurs
-        int studentsUpdated;
+        int studentsUpdated = 0;
+        int classesUpdated = 0;
+        int assignmentsUpdated = 0;
+        int assignmentsStudentsUpdated = 0;
 
         // match code
         int match = sUriMatcher.match(uri);
 
+        String id;
         switch (match) {
             case STUDENT_WITH_ID:
                 //update a single task by getting the id
-                String id = uri.getPathSegments().get(1);
+                id = uri.getPathSegments().get(1);
                 //using selections
-                studentsUpdated = mStudentDbHelper.getWritableDatabase().update
-                        (TABLE_NAME, contentValues, "_id=?", new String[]{id});
+                studentsUpdated = dbHelper.getWritableDatabase().update
+                        (StudentsContract.StudentsEntry.TABLE_NAME,
+                                contentValues, "_id=?", new String[]{id});
+                break;
+            case STUDENTS:
+                //using selections
+                studentsUpdated = dbHelper.getWritableDatabase().update
+                        (StudentsContract.StudentsEntry.TABLE_NAME,
+                                contentValues, selection, selectionArgs);
+                break;
+            case ASSIGNMENT_WITH_ID:
+                //update a single task by getting the id
+                id = uri.getPathSegments().get(1);
+                //using selections
+                assignmentsUpdated = dbHelper.getWritableDatabase().update
+                        (AssignmentsContract.AssignmentsEntry.TABLE_NAME,
+                                contentValues, "_id=?", new String[]{id});
+                break;
+            case ASSIGNMENTS:
+                //using selections
+                assignmentsUpdated = dbHelper.getWritableDatabase().update
+                        (AssignmentsContract.AssignmentsEntry.TABLE_NAME,
+                                contentValues, selection, selectionArgs);
+                break;
+            case CLASS_WITH_ID:
+                //update a single task by getting the id
+                id = uri.getPathSegments().get(1);
+                //using selections
+                classesUpdated = dbHelper.getWritableDatabase().update
+                        (ClassContract.ClassEntry.TABLE_NAME,
+                                contentValues, "_id=?", new String[]{id});
+                break;
+            case CLASSES:
+                //using selections
+                classesUpdated = dbHelper.getWritableDatabase().update
+                        (ClassContract.ClassEntry.TABLE_NAME,
+                                contentValues, selection, selectionArgs);
+                break;
+            case ASSIGNMENT_STUDENT_WITH_ID:
+                //update a single task by getting the id
+                id = uri.getPathSegments().get(1);
+                //using selections
+                assignmentsStudentsUpdated = dbHelper.getWritableDatabase().update
+                        (AssignmentStudentContract.AssignmentsStudentsEntry.TABLE_NAME,
+                                contentValues, "_id=?", new String[]{id});
+                break;
+            case ASSIGNMENTS_STUDENTS:
+                //using selections
+                assignmentsStudentsUpdated = dbHelper.getWritableDatabase().update
+                        (AssignmentStudentContract.AssignmentsStudentsEntry.TABLE_NAME,
+                                contentValues, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -336,9 +405,25 @@ public class MyContentProvider extends ContentProvider {
         if (studentsUpdated != 0) {
             //set notifications if a task was updated
             getContext().getContentResolver().notifyChange(uri, null);
+            return studentsUpdated;
+        }
+        if (assignmentsUpdated != 0) {
+            //set notifications if a task was updated
+            getContext().getContentResolver().notifyChange(uri, null);
+            return assignmentsUpdated;
+        }
+        if (classesUpdated != 0) {
+            //set notifications if a task was updated
+            getContext().getContentResolver().notifyChange(uri, null);
+            return classesUpdated;
+        }
+        if (assignmentsStudentsUpdated != 0) {
+            //set notifications if a task was updated
+            getContext().getContentResolver().notifyChange(uri, null);
+            return assignmentsStudentsUpdated;
         }
 
         // return number of tasks updated
-        return studentsUpdated;
+        return 0;
     }
 }

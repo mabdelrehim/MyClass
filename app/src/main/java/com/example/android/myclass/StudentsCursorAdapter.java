@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.myclass.content.StudentContent;
+import com.example.android.myclass.content.StudentsContent;
 import com.example.android.myclass.data.StudentItem;
 import com.example.android.myclass.data.StudentsContract;
 
-public class CustomCursorAdapter
-        extends RecyclerView.Adapter<CustomCursorAdapter.StudentsViewHolder> {
+public class StudentsCursorAdapter
+        extends RecyclerView.Adapter<StudentsCursorAdapter.StudentsViewHolder> {
 
     // Class variables for the Cursor that holds task data and the Context
     private Cursor mCursor;
@@ -27,7 +27,7 @@ public class CustomCursorAdapter
         @Override
         public void onClick(View view) {
             StudentItem item = (StudentItem) view.getTag();
-            if (mTwoPane) {
+            /*if (mTwoPane) {
                 Bundle arguments = new Bundle();
                 arguments.putString(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
                 StudentDetailFragment fragment = new StudentDetailFragment();
@@ -35,23 +35,23 @@ public class CustomCursorAdapter
                 mParentActivity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.student_detail_container, fragment)
                         .commit();
-            } else {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, StudentDetailActivity.class);
-                intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
+            }*/
+            Context context = view.getContext();
+            Intent intent = new Intent(context, StudentDetailActivity.class);
+            intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
 
-                context.startActivity(intent);
-            }
+            context.startActivity(intent);
+
         }
     };
 
 
     /**
-     * Constructor for the CustomCursorAdapter that initializes the Context.
+     * Constructor for the StudentsCursorAdapter that initializes the Context.
      *
      * @param mContext the current Context
      */
-    public CustomCursorAdapter(Context mContext, StudentListActivity parent, boolean mTwoPane) {
+    public StudentsCursorAdapter(Context mContext, StudentListActivity parent, boolean mTwoPane) {
         this.mContext = mContext;
         this.mParentActivity = parent;
         this.mTwoPane = mTwoPane;
@@ -68,7 +68,7 @@ public class CustomCursorAdapter
 
         // Inflate the task_layout to a view
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.student_list_content, parent, false);
+                .inflate(R.layout.numbered_list_content, parent, false);
 
         return new StudentsViewHolder(view);
     }
@@ -100,7 +100,7 @@ public class CustomCursorAdapter
                 mCursor.getString(emailIndex),
                 mCursor.getString(parentEmailIndex),
                 mCursor.getInt(daysAbsentIndex));
-        StudentContent.ITEM_MAP.put(Integer.toString(item.id), item);
+        StudentsContent.ITEM_MAP.put(Integer.toString(item.id), item);
 
 
 
