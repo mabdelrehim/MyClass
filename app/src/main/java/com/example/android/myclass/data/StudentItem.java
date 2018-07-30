@@ -9,6 +9,7 @@ public class StudentItem {
     public String parentEmail;
     public int daysAbsent;
     public String details;
+    private Boolean mIsChecked = false;
 
 
     public StudentItem(int id, String studentName, String studentClass,
@@ -23,6 +24,17 @@ public class StudentItem {
                 "Email: " + this.email + "\n\n" +
                 "Parent's Email: " + this.parentEmail + "\n\n" +
                 "Days Absent: " + Integer.toString(this.daysAbsent) + "\n\n";
+    }
+
+    public String getName() {
+        return studentName;
+    }
+    public void setmIsChecked(Boolean mIsChecked) {
+        this.mIsChecked = mIsChecked;
+    }
+
+    public Boolean getmIsChecked() {
+        return mIsChecked;
     }
 
     @Override

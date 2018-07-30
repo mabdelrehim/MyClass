@@ -1,6 +1,7 @@
 package com.example.android.myclass.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -85,5 +86,55 @@ public class MyDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +
                 ClassContract.ClassEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
+    }
+
+    public Cursor getData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + StudentsContract.StudentsEntry.TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+    /**
+     * Returns only the ID that matches the name passed in
+     * @param name
+     * @return
+     */
+    public Cursor getItemID(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + StudentsContract.StudentsEntry._ID  + " FROM " + StudentsContract.StudentsEntry.TABLE_NAME +
+                " WHERE " + StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME + " = '" + name + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+    public void updateAbsence(int id, int oldDays){
+        oldDays++;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + StudentsContract.StudentsEntry.TABLE_NAME + " SET " + StudentsContract.StudentsEntry.DAYS_ABSENT +
+                " = " + oldDays + " WHERE " + StudentsContract.StudentsEntry._ID + " = " + id;
+        db.execSQL(query);
+    }
+    public void updateAbsence2(int id, int oldDays){
+        oldDays--;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + StudentsContract.StudentsEntry.TABLE_NAME + " SET " + StudentsContract.StudentsEntry.DAYS_ABSENT +
+                " = " + oldDays + " WHERE " + StudentsContract.StudentsEntry._ID + " = " + id;
+        db.execSQL(query);
+    }
+    /**
+     * Returns absenceDays of the students from database
+     * @return
+     */
+    public int getAbsence(int id){
+        int daysOfAbsence =0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + StudentsContract.StudentsEntry.DAYS_ABSENT + " FROM " + StudentsContract.StudentsEntry.TABLE_NAME+" WHERE " +
+                StudentsContract.StudentsEntry._ID + " = " + id;
+        Cursor data = db.rawQuery(query, null);
+        if( data != null && data.moveToFirst() ){
+            daysOfAbsence = data.getInt(data.getColumnIndex(StudentsContract.StudentsEntry.DAYS_ABSENT));
+            data.close();
+        }
+        // int daysOfAbsence = data.getInt(data.getColumnIndex(StudentsContract.StudentsEntry.DAYS_ABSENT));
+        return daysOfAbsence;
     }
 }
