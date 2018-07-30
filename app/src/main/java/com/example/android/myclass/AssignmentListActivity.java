@@ -1,12 +1,10 @@
 package com.example.android.myclass;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -17,12 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.android.myclass.data.AssignmentItem;
 import com.example.android.myclass.data.AssignmentsContract;
-import com.example.android.myclass.data.StudentItem;
-import com.example.android.myclass.data.StudentsContract;
 
 public class AssignmentListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
