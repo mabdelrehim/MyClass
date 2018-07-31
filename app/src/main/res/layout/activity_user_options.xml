@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".UserOptions"
+    tools:showIn="@layout/activity_user_options"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/add_quiz_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/addQuiz"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toTopOf="@id/view_students_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/add_assignment_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#e57373"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Button
+        android:id="@+id/add_assignment_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/addAssignment"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toTopOf="@id/take_attendance_button"
+        app:layout_constraintLeft_toRightOf="@id/add_quiz_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#ef5350"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Button
+        android:id="@+id/view_students_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/viewStudents"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/take_attendance_button"
+        app:layout_constraintTop_toBottomOf="@id/add_quiz_button"
+        android:background="#ef5350"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Button
+        android:id="@+id/take_attendance_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/takeAttendance"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/view_students_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_assignment_button"
+        android:background="#e57373"
+        style="?android:attr/borderlessButtonStyle"/>
+
+
+</android.support.constraint.ConstraintLayout>
