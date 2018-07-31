@@ -28,6 +28,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.myclass.StudentListActivity" />
         </activity>
+        <activity android:name=".UserOptions" />
+        <activity android:name=".AddNewClass"></activity>
     </application>
 
 </manifest>

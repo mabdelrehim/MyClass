@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">My Class</string>
     <string name="title_student_detail">Student Detail</string>
+    <string name="addQuiz">Add Quiz</string>
+    <string name="addAssignment">Add Assignment</string>
+    <string name="takeAttendance">Take Attendance</string>
+    <string name="viewStudents">View Students</string>
+    <string name="className">Class Name</string>
 </resources>
