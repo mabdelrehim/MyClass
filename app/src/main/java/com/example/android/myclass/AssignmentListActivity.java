@@ -137,9 +137,9 @@ public class AssignmentListActivity extends AppCompatActivity implements
 
                 // code here
                 // Create a new intent to start an AddTaskActivity
-                Intent addAssignmentIntent = new Intent(AssignmentListActivity.this,
-                        AddAssignmentActivity.class);
-                startActivity(addAssignmentIntent);
+                Intent addStudentIntent = new Intent(AssignmentListActivity.this,
+                        AddStudentActivity.class);
+                startActivity(addStudentIntent);
 
 
             }
