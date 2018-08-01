@@ -3,7 +3,6 @@ package com.example.android.myclass;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +29,10 @@ public class AssignmentsCursorAdapter
             AssignmentItem item = (AssignmentItem) view.getTag();
             // TODO: when a user clicks on a specific assignment
 
+            Intent intent = new Intent(mContext, AssignmentDetailsActivity.class);
+            intent.putExtra("itemId", Integer.toString(item.id));
+
+            mContext.startActivity(intent);
             /*Context context = view.getContext();
             Intent intent = new Intent(context, StudentDetailActivity.class);
             intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
