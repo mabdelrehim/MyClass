@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.android.myclass.ClassOptionsActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Class"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center" />
-
-    </LinearLayout>
+    tools:context=".ClassOptionsActivity">
 
     <Button
-        android:id="@+id/Attendance_button"
-        android:layout_width="160dp"
+        android:id="@+id/view_students_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Take Absence"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:background="@color/colorPrimary"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="startStudents"
+        android:text="Students"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/viewStudents_button"
-        android:layout_width="160dp"
+        android:id="@+id/view_assignments_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:text="View Students"
-        android:background="@color/colorPrimary"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="startAssignments"
+        android:text="Assignments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_students_button" />
 
-
-</LinearLayout>
+    <Button
+        android:id="@+id/take_attendance_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical|center"
+        android:onClick="startAttendance"
+        android:text="Take Attendance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_assignments_button" />
+</android.support.constraint.ConstraintLayout>

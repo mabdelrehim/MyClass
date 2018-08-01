@@ -15,6 +15,8 @@ public class AssignmentItem {
     public String dateAssigned;
     public String dueDate;
     public String className;
+    public String info;
+    public String typeString;
 
     public AssignmentItem(int id, String assignmentName, int assignmentType, int totalGrade,
                           String details, String dateAssigned, String dueDate, String className) {
@@ -26,6 +28,19 @@ public class AssignmentItem {
         this.dateAssigned = dateAssigned;
         this.dueDate = dueDate;
         this.className = className;
+        if (this.assignmentType == AssignmentItem.EXAM)
+            typeString = "Exam";
+        else if (this.assignmentType == AssignmentItem.QUIZ)
+            typeString = "Quiz";
+        else
+            typeString = "Regular Assignment";
+        this.info =
+                "Type: " + this.typeString + "\n" +
+                "Class: " + this.className + "\n" +
+                "Date Assigned: " + this.dateAssigned + "\n" +
+                "Due Date: " + this.dueDate + "\n" +
+                "Total Grade: " + this.totalGrade + "\n" +
+                "Details: " + this.details + "\n";
     }
 
     @Override

@@ -30,6 +30,7 @@ public class AssignmentsCursorAdapter
             AssignmentItem item = (AssignmentItem) view.getTag();
             // TODO: when a user clicks on a specific assignment
 
+
             /*Context context = view.getContext();
             Intent intent = new Intent(context, StudentDetailActivity.class);
             intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
