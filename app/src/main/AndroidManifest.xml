@@ -43,11 +43,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".AddAssignmentActivity" />
         <activity
             android:name=".AssignmentDetailsActivity"
             android:label="@string/title_activity_assignment_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+=======
+>>>>>>> parent of 05726bc... Merge pull request #2 from Effat97/effat
     </application>
 
 </manifest>
