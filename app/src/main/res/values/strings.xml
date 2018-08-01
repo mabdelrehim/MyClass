@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">My Class</string>
     <string name="title_student_detail">Student Detail</string>
+
+    <string name="addQuiz">Add Quiz</string>
+    <string name="addAssignment">Add Assignment</string>
+    <string name="takeAttendance">Take Attendance</string>
+    <string name="viewStudents">View Students</string>
+    <string name="className">Class Name</string>
+
     <string name="title_activity_assignments_list">AssignmentsListActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -93,5 +100,9 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_assignment_list">AssignmentListActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_assignment_details">AssignmentDetailsActivity</string>
+=======
+
+>>>>>>> 05726bc1eab55cf044d8f1acad7194b0d8ec7c47
 </resources>
