@@ -22,9 +22,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.myclass.StudentListActivity" />
         </activity>
-
-        <activity android:name=".UserOptions" />
-        <activity android:name=".AddNewClass"></activity>
         <activity android:name=".AddStudentActivity" />
 
         <provider
@@ -46,15 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name=".AddAssignmentActivity" />
         <activity
             android:name=".AssignmentDetailsActivity"
             android:label="@string/title_activity_assignment_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-=======
-
->>>>>>> 05726bc1eab55cf044d8f1acad7194b0d8ec7c47
     </application>
 
 </manifest>
