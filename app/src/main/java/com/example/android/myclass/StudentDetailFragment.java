@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +49,8 @@ public class StudentDetailFragment extends Fragment {
             mItem = StudentsContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.
-                    findViewById(R.id.toolbar_layout);
+            Toolbar appBarLayout = (Toolbar) activity.
+                    findViewById(R.id.toolbar);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.studentName);
             }

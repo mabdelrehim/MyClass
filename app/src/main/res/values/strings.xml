@@ -4,4 +4,24 @@
     <string name="title_activity_assignments_list">AssignmentsListActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_assignment_list">AssignmentListActivity</string>
+    <string name="Assignments">Assignments</string>
+    <string name="AddAssignmentB">New Assignment</string>
+    <string name="NewQuiz">New Quiz</string>
+
+    <string name="BackB">Back</string>
+    <string name="NewAssignment">New Assignment</string>
+    <string name="AssignmentName">Assignment Name</string>
+    <string name="DateAssigned">Date Assigned</string>
+    <string name="DueDate">Due Date</string>
+    <string name="Date">Date</string>
+    <string name="Details">Details</string>
+
+    <string name="AssignmentWeight">Total Marks</string>
+    <string name="NotifyStudentsB">Notify Students</string>
+    <string name="NotifyB">Save and Notify</string>
+    <string name="SaveB">Save</string>
+    <string name="Quizzes">Quizzes</string>
+    <string name="AddQuizB">Add Quiz</string>
+    <string name="title_activity_students_delivered">StudentsDeliveredActivity</string>
+    <string name="title_activity_add_student_delivered">AddStudentDeliveredActivity</string>
 </resources>

@@ -31,11 +31,11 @@ public class AssignmentsCursorAdapter
             // TODO: when a user clicks on a specific assignment
 
 
-            /*Context context = view.getContext();
-            Intent intent = new Intent(context, StudentDetailActivity.class);
-            intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
+            Context context = view.getContext();
+            Intent intent = new Intent(context, AssignmentDetailsActivity.class);
+            intent.putExtra("itemId", Integer.toString(item.id));
 
-            context.startActivity(intent);*/
+            context.startActivity(intent);
 
         }
     };

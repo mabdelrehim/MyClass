@@ -47,6 +47,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 " INTEGER NOT NULL," +
                 AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID +
                 " INTEGER NOT NULL," +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMNT_NAME +
+                " TEXT NOT NULL," +
                 AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME +
                 " TEXT NOT NULL," +
                 AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME +

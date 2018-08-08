@@ -9,10 +9,12 @@ public class AssignmentStudentItem {
     public int assignmentId;
     public int studentGrade;
     public String comments;
+    public String assignmentName;
 
     public AssignmentStudentItem (int id, String studentName, int studentId, String className,
-                                  int assignmentId, int studentGrade, String comments) {
+                                  int assignmentId, int studentGrade, String comments, String assignmentName) {
         this.id = id;
+        this.assignmentName = assignmentName;
         this.studentName = studentName;
         this.studentId = studentId;
         this.className = className;

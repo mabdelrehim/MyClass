@@ -2,32 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:theme="@style/AppTheme.NoActionBar">
 
     <RelativeLayout
         android:id="@+id/Student_view"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:paddingLeft="16dp"
-        android:gravity="center_vertical"
-        >
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/StudentName_view"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:text="student"
-            />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/checkBox_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/StudentName_view"
-            />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true" />
     </RelativeLayout>
 </LinearLayout>

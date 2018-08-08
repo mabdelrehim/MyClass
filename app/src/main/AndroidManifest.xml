@@ -33,7 +33,7 @@
         <activity
             android:name=".AssignmentListActivity"
             android:label="@string/title_activity_assignment_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TakeAttendanceActivity" />
         <activity android:name=".StudentCheckListActivity" />
         <activity android:name=".ClassOptionsActivity">
@@ -43,6 +43,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ClassListTestActivity" />
+        <activity android:name=".AddAssignmentActivity" />
+        <activity android:name=".AssignmentDetailsActivity" />
+        <activity
+            android:name=".StudentsDeliveredActivity"
+            android:label="@string/title_activity_students_delivered" />
+        <activity
+            android:name=".AddStudentDeliveredActivity"
+            android:label="@string/title_activity_add_student_delivered"></activity>
     </application>
 
 </manifest>

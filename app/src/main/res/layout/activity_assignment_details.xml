@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".StudentDetailActivity"
+    tools:context=".AssignmentDetailsActivity"
     tools:ignore="MergeRootFrame">
 
     <Button
-        android:id="@+id/stdAssignments"
+        android:id="@+id/assignStds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Assignments"
+        android:text="Delivered Assignments"
         app:layout_anchor="@+id/assignment_detail_container"
         app:layout_anchorGravity="bottom|end"/>
 
@@ -61,16 +61,20 @@
         android:id="@+id/assignment_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@+id/assignment_detail_container"
-        app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/assignment_detail"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textIsSelectable="true"
+            tools:context=".StudentDetailFragment" />
+
+    </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>

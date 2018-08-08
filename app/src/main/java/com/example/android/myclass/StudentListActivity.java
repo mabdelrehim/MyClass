@@ -46,7 +46,6 @@ public class StudentListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_student_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         toolbar.setTitle("Students");
 
         //commented code for larger screen implementation

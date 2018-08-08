@@ -19,6 +19,7 @@ public class AssignmentStudentContract {
         public static final String COLUMN_STUDENT_ID = "studentID";
         public static final String COLUMN_CLASS_NAME = "className";
         public static final String COLUMN_ASSIGNMENT_ID = "assignmentID";
+        public static final String COLUMN_ASSIGNMNT_NAME = "assignmentName";
         public static final String COLUMN_STUDENT_GRADE = "studentGrade";
         public static final String COLUMN_COMMENTS = "comments";
 
