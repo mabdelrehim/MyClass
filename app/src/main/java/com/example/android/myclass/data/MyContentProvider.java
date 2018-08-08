@@ -120,6 +120,7 @@ public class MyContentProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

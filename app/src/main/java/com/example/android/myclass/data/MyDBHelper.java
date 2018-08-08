@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "myAppDatabase.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public MyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -47,7 +47,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 " INTEGER NOT NULL," +
                 AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID +
                 " INTEGER NOT NULL," +
-                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMNT_NAME +
+                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_NAME +
                 " TEXT NOT NULL," +
                 AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME +
                 " TEXT NOT NULL," +

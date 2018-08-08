@@ -1,5 +1,6 @@
 package com.example.android.myclass;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -65,6 +66,11 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 // code here
 
+                Context context = view.getContext();
+                Intent intent = new Intent(context, AddStudentDeliveredActivity.class);
+                intent.putExtra("itemId", extras.getString("itemId"));
+
+                context.startActivity(intent);
             }
         });
 

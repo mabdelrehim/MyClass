@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".AssignmentDetailsActivity"
-    tools:ignore="MergeRootFrame">
-
-    <Button
-        android:id="@+id/assignStds"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delivered Assignments"
-        app:layout_anchor="@+id/assignment_detail_container"
-        app:layout_anchorGravity="bottom|end"/>
+    tools:context=".AssignmentDetailsActivity">
 
     <!--<android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -57,24 +48,32 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/assignment_detail_container"
+    <Button
+        android:id="@+id/deliveredAssign"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="deliveredAssignments"
+        android:text="Delivered Assignments"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/deliveredAssign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/assignment_detail"
-            style="?android:attr/textAppearanceLarge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textIsSelectable="true"
-            tools:context=".StudentDetailFragment" />
-
-    </android.support.v4.widget.NestedScrollView>
-
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

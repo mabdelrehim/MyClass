@@ -1,7 +1,6 @@
 package com.example.android.myclass;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -90,7 +89,7 @@ public class StudentsDeliveredCursorAdapter extends
         int studentNameIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME);
         int studentIdIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID);
         int classNameIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME);
-        int assignmentNameIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMNT_NAME);
+        int assignmentNameIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_NAME);
         int assignmentIdIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID);
         int gradeIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_GRADE);
         int commentsIndex = mCursor.getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_COMMENTS);
