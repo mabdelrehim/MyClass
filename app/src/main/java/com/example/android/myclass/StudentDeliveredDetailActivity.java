@@ -66,6 +66,7 @@ public class StudentDeliveredDetailActivity extends AppCompatActivity {
         intent.putExtra("assignmentDeliveredId", Integer.toString(item.id));
 
         context.startActivity(intent);
+        finish();
 
     }
 }

@@ -30,6 +30,8 @@ import com.example.android.myclass.data.StudentsContract;
 public class StudentListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
+    //TODO when a student is deleted delete all assignments he delivered
+
     // Constants for logging and referring to a unique loader
     private static final String TAG = StudentListActivity.class.getSimpleName();
     private static final int TASK_LOADER_ID = 0;
