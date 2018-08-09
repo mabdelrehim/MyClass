@@ -51,7 +51,11 @@
             android:label="@string/title_activity_students_delivered" />
         <activity
             android:name=".AddStudentDeliveredActivity"
-            android:label="@string/title_activity_add_student_delivered"></activity>
+            android:label="@string/title_activity_add_student_delivered" />
+        <activity android:name=".StudentDeliveredDetailActivity" />
+        <activity
+            android:name=".EditDeliveredAssignmentActivity"
+            android:label="@string/title_activity_edit_delivered_assignment"></activity>
     </application>
 
 </manifest>

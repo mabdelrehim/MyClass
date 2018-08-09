@@ -1,6 +1,7 @@
 package com.example.android.myclass;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,20 +27,12 @@ public class StudentsDeliveredCursorAdapter extends
         @Override
         public void onClick(View view) {
             AssignmentStudentItem item = (AssignmentStudentItem) view.getTag();
-            /*if (mTwoPane) {
-                Bundle arguments = new Bundle();
-                arguments.putString(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
-                StudentDetailFragment fragment = new StudentDetailFragment();
-                fragment.setArguments(arguments);
-                mParentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.student_detail_container, fragment)
-                        .commit();
-            }*/
-            /*Context context = view.getContext();
-            Intent intent = new Intent(context, StudentDetailActivity.class);
-            intent.putExtra(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
 
-            context.startActivity(intent);*/
+            Context context = view.getContext();
+            Intent intent = new Intent(context, StudentDeliveredDetailActivity.class);
+            intent.putExtra("deliveryId", Integer.toString(item.id));
+
+            context.startActivity(intent);
 
         }
     };

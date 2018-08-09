@@ -24,4 +24,5 @@
     <string name="AddQuizB">Add Quiz</string>
     <string name="title_activity_students_delivered">StudentsDeliveredActivity</string>
     <string name="title_activity_add_student_delivered">AddStudentDeliveredActivity</string>
+    <string name="title_activity_edit_delivered_assignment">EditDeliveredAssignmentActivity</string>
 </resources>

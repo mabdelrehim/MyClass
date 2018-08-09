@@ -3,6 +3,7 @@ package com.example.android.myclass;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
@@ -13,12 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
 
 
 import com.example.android.myclass.data.AssignmentStudentContract;
+import com.example.android.myclass.data.AssignmentStudentItem;
 
 public class StudentsDeliveredActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
@@ -53,6 +56,44 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
         mAdapter = new StudentsDeliveredCursorAdapter(this, this, mTwoPane);
         mRecyclerView.setAdapter(mAdapter);
 
+        /*
+         Add a touch helper to the RecyclerView to recognize when a user swipes to delete an item.
+         An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
+         and uses callbacks to signal when a user is performing these actions.
+         */
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            // Called when a user swipes left or right on a ViewHolder
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // Here is where you'll implement swipe to delete
+
+                // COMPLETED (1) Construct the URI for the item to delete
+                //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
+                // Retrieve the id of the task to delete
+                AssignmentStudentItem item = (AssignmentStudentItem) viewHolder.itemView.getTag();
+
+                // Build appropriate uri with String row id appended
+                String stringId = Integer.toString(item.id);
+                Uri uri = AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI;
+                uri = uri.buildUpon().appendPath(stringId).build();
+
+                // COMPLETED (2) Delete a single row of data using a ContentResolver
+                getContentResolver().delete(uri, null, null);
+
+                // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
+                getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
+                        StudentsDeliveredActivity.this);
+
+            }
+        }).attachToRecyclerView(mRecyclerView);
+
 
         /*
          Set the Floating Action Button (FAB) to its corresponding View.
@@ -68,7 +109,7 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
 
                 Context context = view.getContext();
                 Intent intent = new Intent(context, AddStudentDeliveredActivity.class);
-                intent.putExtra("itemId", extras.getString("itemId"));
+                intent.putExtra("assignmentId", extras.getString("assignmentId"));
 
                 context.startActivity(intent);
             }
@@ -133,7 +174,7 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
                 try {
                     String selection = AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID
                             + "=?";
-                    String[] selectionArgs = {extras.getString("itemId")};
+                    String[] selectionArgs = {extras.getString("assignmentId")};
                     return getContentResolver().query(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI,
                             null,
                             selection,

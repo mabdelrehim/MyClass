@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".StudentDetailActivity"
+    tools:context=".StudentDeliveredDetailActivity"
     tools:ignore="MergeRootFrame">
 
 
@@ -52,33 +52,28 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/assignment_detail_container"
+        android:id="@+id/student_delivered_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+        <TextView
+            android:id="@+id/deliveryDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="TextView"
+            android:textSize="24sp" />
     </android.support.v4.widget.NestedScrollView>
-
-
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@+id/assignment_detail_container"
-        app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <Button
         android:id="@+id/stdAssignments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Assignments"
-        app:layout_anchor="@+id/assignment_detail_container"
+        android:onClick="editButton"
+        android:text="Edit"
+        app:layout_anchor="@+id/student_delivered_detail_container"
         app:layout_anchorGravity="bottom|end" />
 
 </android.support.design.widget.CoordinatorLayout>

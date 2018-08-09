@@ -33,7 +33,8 @@ public class AssignmentsCursorAdapter
 
             Context context = view.getContext();
             Intent intent = new Intent(context, AssignmentDetailsActivity.class);
-            intent.putExtra("itemId", Integer.toString(item.id));
+            intent.putExtra("assignmentId", Integer.toString(item.id));
+            intent.putExtra("assignmentName", item.assignmentName);
 
             context.startActivity(intent);
 

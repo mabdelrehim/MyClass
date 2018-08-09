@@ -36,7 +36,7 @@ public class AddStudentDeliveredActivity extends Activity {
         comments = findViewById(R.id.comments);
 
         extras = getIntent().getExtras();
-        item = AssignmentsContent.ITEM_MAP.get(extras.getString("itemId"));
+        item = AssignmentsContent.ITEM_MAP.get(extras.getString("assignmentId"));
         String assignmentId = Integer.toString(item.id);
         String totalGrade = Integer.toString(item.totalGrade);
 
