@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "myAppDatabase.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     public MyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -61,7 +61,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_CLASSES_TABLE = "CREATE TABLE " +
                 ClassContract.ClassEntry.TABLE_NAME + "(" +
                 ClassContract.ClassEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ClassContract.ClassEntry.COLUMN_CLASS_NAME + "TEXT NOT NULL" + ")";
+                ClassContract.ClassEntry.COLUMN_CLASS_NAME + " TEXT NOT NULL" + ")";
 
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENTS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ASSIGNMENTS_TABLE);
