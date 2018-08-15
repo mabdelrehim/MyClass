@@ -52,12 +52,15 @@ public class AssignmentListActivity extends AppCompatActivity implements
     private AssignmentsCursorAdapter mAdapter;
     private boolean mTwoPane;
     RecyclerView mRecyclerView;
+    Bundle extras;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignment_list);
+
+        extras = getIntent().getExtras();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -133,12 +136,12 @@ public class AssignmentListActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 // code here
                 // Create a new intent to start an AddTaskActivity
-                //TODO: replace test code
 
                 // code here
                 // Create a new intent to start an AddTaskActivity
                 Intent addAssignmentIntent = new Intent(AssignmentListActivity.this,
                         AddAssignmentActivity.class);
+                addAssignmentIntent.putExtra("className", extras.getString("className"));
                 startActivity(addAssignmentIntent);
 
 
@@ -204,8 +207,8 @@ public class AssignmentListActivity extends AppCompatActivity implements
                 try {
                     return getContentResolver().query(AssignmentsContract.AssignmentsEntry.CONTENT_URI,
                             null,
-                            null,
-                            null,
+                            AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME + "=?",
+                            new String[] {extras.getString("className")},
                             null);
 
                 } catch (Exception e) {

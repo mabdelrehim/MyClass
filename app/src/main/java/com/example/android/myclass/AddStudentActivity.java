@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.myclass.data.StudentsContract;
+
+import org.w3c.dom.Text;
 
 public class AddStudentActivity extends AppCompatActivity {
 
@@ -16,28 +19,34 @@ public class AddStudentActivity extends AppCompatActivity {
     EditText Ename;
     EditText ESEmail;
     EditText EPEmail;
-    EditText EClass;
+    TextView EClass;
     String mName;
     String mClass;
     String mEmail;
     String mPEmail;
+    Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
-    }
-
-    public void onClickAddTask(View view) {
 
         Ename = (EditText) findViewById(R.id.namefield_edit);
         ESEmail = (EditText) findViewById(R.id.emailfield_edit);
         EPEmail = (EditText) findViewById(R.id.parentfield_edit);
-        EClass = (EditText) findViewById(R.id.classfield_edit);
+        EClass = (TextView) findViewById(R.id.classfield_edit);
+
+        extras = getIntent().getExtras();
+        EClass.setText("Class: " + extras.getString("className"));
+    }
+
+    public void onClickAddTask(View view) {
+
+
 
         mName = (String) Ename.getText().toString().trim();
         mEmail = (String) ESEmail.getText().toString().trim();
         mPEmail = (String) EPEmail.getText().toString().trim();
-        mClass = (String) EClass.getText().toString().trim();
+        mClass = extras.getString("className");
 
         ContentValues cv = new ContentValues();
         cv.put(StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME, mName);

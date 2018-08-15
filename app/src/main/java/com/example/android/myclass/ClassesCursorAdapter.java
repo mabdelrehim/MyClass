@@ -31,18 +31,10 @@ public class ClassesCursorAdapter
         @Override
         public void onClick(View view) {
             ClassItem item = (ClassItem) view.getTag();
-            /*if (mTwoPane) {
-                Bundle arguments = new Bundle();
-                arguments.putString(StudentDetailFragment.ARG_ITEM_ID, Integer.toString(item.id));
-                StudentDetailFragment fragment = new StudentDetailFragment();
-                fragment.setArguments(arguments);
-                mParentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.student_detail_container, fragment)
-                        .commit();
-            }*/
+
             Context context = view.getContext();
             Intent intent = new Intent(context, ClassOptionsActivity.class);
-            intent.putExtra("Class Name", item.className);
+            intent.putExtra("className", item.className);
 
             context.startActivity(intent);
 

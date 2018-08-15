@@ -5,11 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-//TODO init create tables strings
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "myAppDatabase.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     public MyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -90,9 +89,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public Cursor getData(){
+    public Cursor getData(String className){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + StudentsContract.StudentsEntry.TABLE_NAME;
+        String query = "SELECT * FROM " + StudentsContract.StudentsEntry.TABLE_NAME + " WHERE " +
+                StudentsContract.StudentsEntry.COLUMN_CLASS_NAME + " = '" + className + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }

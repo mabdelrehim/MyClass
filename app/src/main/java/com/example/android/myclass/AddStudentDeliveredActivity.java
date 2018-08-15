@@ -64,7 +64,7 @@ public class AddStudentDeliveredActivity extends Activity {
             cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME, studentName);
             cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID, item.id);
             cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_NAME, item.assignmentName);
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME, "test"); //todo change that
+            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME, item.className);
             cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_COMMENTS, comments.getText().toString().trim());
             cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_GRADE, grade.getText().toString().trim());
             cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID, stdid);

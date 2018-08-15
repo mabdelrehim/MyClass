@@ -23,6 +23,7 @@ public class StudentCheckListActivity extends AppCompatActivity {
     MyDBHelper mDatabaseHelper;
     ArrayList<StudentItem> listData;
     ArrayList<Integer> absenceDays;
+    Bundle extras;
     Cursor mCursor ;
 
     private RecyclerView mRecyclerView;
@@ -30,6 +31,7 @@ public class StudentCheckListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_check_list);
+        extras = getIntent().getExtras();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mDatabaseHelper = new MyDBHelper(this);
@@ -45,7 +47,7 @@ public class StudentCheckListActivity extends AppCompatActivity {
 
 
         //get the data and append to a list
-        mCursor = mDatabaseHelper.getData();
+        mCursor = mDatabaseHelper.getData(extras.getString("className"));
 
         int idIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry._ID);
         int nameIndex = mCursor.getColumnIndex(StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME);

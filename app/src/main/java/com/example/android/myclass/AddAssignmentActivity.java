@@ -3,6 +3,8 @@ package com.example.android.myclass;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,13 +19,16 @@ import android.widget.Toolbar;
 
 import com.example.android.myclass.data.AssignmentItem;
 import com.example.android.myclass.data.AssignmentsContract;
+import com.example.android.myclass.data.StudentsContract;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class AddAssignmentActivity extends AppCompatActivity {
     Context context = this;
+    Bundle extras;
     EditText assignmentName;
     EditText editDate;
     EditText details;
@@ -33,10 +38,18 @@ public class AddAssignmentActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date;
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
 
+    String []emailArray;
+    private Intent intent,saveIt;
+    Cursor c;
+    ArrayList<String> emailList;
+    boolean notified;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
+
+        extras = getIntent().getExtras();
 
         android.support.v7.widget.Toolbar appBarLayout = (android.support.v7.widget.Toolbar)
                 findViewById(R.id.toolbar);
@@ -70,30 +83,89 @@ public class AddAssignmentActivity extends AppCompatActivity {
 
 
 
+    public void EmailAssignment(int totalGrade, String typeString) {
+
+        if (editDate.getText().toString().equalsIgnoreCase("")||
+                assignmentName.getText().toString().equalsIgnoreCase("")||
+                details.getText().toString().equalsIgnoreCase(""))
+        {
+            Toast.makeText(AddAssignmentActivity.this,"Fill in empty fields!",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+
+
+            intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            emailList = new ArrayList<String>();
+            c = getContentResolver().query(StudentsContract.StudentsEntry.CONTENT_URI,
+                    null,
+                    StudentsContract.StudentsEntry.COLUMN_CLASS_NAME + "=?",
+                    new String[]{extras.getString("className")},
+                    null);
+
+            if (c != null && c.getCount() != 0) {
+                while (c.moveToNext()) {
+                    emailList.add(c.getString(c.getColumnIndex(StudentsContract.StudentsEntry.EMAIL)));
+                    emailList.add(c.getString(c.getColumnIndex(StudentsContract.StudentsEntry.PARENT_EMAIL)));
+
+                }
+                emailArray = emailList.toArray(new String[emailList.size()]);
+
+                c.close();
+                intent.putExtra(Intent.EXTRA_EMAIL, emailArray);
+
+
+                intent.putExtra(Intent.EXTRA_SUBJECT, "New Assignment: "+assignmentName.getText().toString()+"("+typeString+")");
+                intent.putExtra(Intent.EXTRA_TEXT, "Due Date: " + editDate.getText().toString() + "\n Total Grade: " +
+                        totalGrade + "\n " + "Details: " + details.getText().toString());
+
+                try {
+                    startActivity(Intent.createChooser(intent, "Email"));
+                    notified = true;
+                } catch (android.content.ActivityNotFoundException ex) {
+                    notified = false;
+                    Toast.makeText(AddAssignmentActivity.this,"Failed to notify students and parents.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+        }
+    }
+
+
+
     public void saveAssignment(View view) {
 
         String name = assignmentName.getText().toString().trim();
         String due = editDate.getText().toString().trim();
         String detailStr = details.getText().toString().trim();
         String dateAssign = sdf.format(System.currentTimeMillis());
-        String className = "test"; //TODO change to a real class name
+        String className = extras.getString("className");
 
         int totalGrade;
         int type = AssignmentItem.REGULAR_ASSIGNMENT;
+        String assignmentType = "Regular Assignment";
 
         RadioGroup typeOptions = (RadioGroup) findViewById(R.id.typeOptions);
         int selectedId = typeOptions.getCheckedRadioButtonId();
 
         if (selectedId == R.id.quizRadio) {
             type = AssignmentItem.QUIZ;
+            assignmentType = "Quiz";
             totalGrade = Integer.valueOf(grade.getText().toString().trim());
         } else if (selectedId == R.id.examRadio) {
             type = AssignmentItem.EXAM;
+            assignmentType = "Exam";
             totalGrade = Integer.valueOf(grade.getText().toString().trim());
         } else {
             // fall back to regular assignment option
             totalGrade = 5;
         }
+
+        EmailAssignment(totalGrade, assignmentType);
+
+
 
         ContentValues cv = new ContentValues();
         cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_NAME, name);

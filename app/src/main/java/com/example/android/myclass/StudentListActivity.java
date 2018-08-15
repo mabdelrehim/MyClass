@@ -40,6 +40,7 @@ public class StudentListActivity extends AppCompatActivity implements
     private StudentsCursorAdapter mAdapter;
     private boolean mTwoPane;
     RecyclerView mRecyclerView;
+    Bundle extras;
 
 
     @Override
@@ -49,6 +50,7 @@ public class StudentListActivity extends AppCompatActivity implements
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Students");
+        extras = getIntent().getExtras();
 
         //commented code for larger screen implementation
         //deprecated
@@ -123,6 +125,7 @@ public class StudentListActivity extends AppCompatActivity implements
                 // Create a new intent to start an AddTaskActivity
                 Intent addStudentIntent = new Intent(StudentListActivity.this,
                         AddStudentActivity.class);
+                addStudentIntent.putExtra("className", extras.getString("className"));
                 startActivity(addStudentIntent);
             }
         });
@@ -186,8 +189,8 @@ public class StudentListActivity extends AppCompatActivity implements
                 try {
                     return getContentResolver().query(StudentsContract.StudentsEntry.CONTENT_URI,
                             null,
-                            null,
-                            null,
+                            StudentsContract.StudentsEntry.COLUMN_CLASS_NAME + "=?",
+                            new String[] {extras.getString("className")},
                             null);
 
                 } catch (Exception e) {

@@ -28,7 +28,6 @@ public class AssignmentsCursorAdapter
         @Override
         public void onClick(View view) {
             AssignmentItem item = (AssignmentItem) view.getTag();
-            // TODO: when a user clicks on a specific assignment
 
 
             Context context = view.getContext();

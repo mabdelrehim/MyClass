@@ -1,14 +1,19 @@
 package com.example.android.myclass;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import com.example.android.myclass.content.StudentsContent;
+import com.example.android.myclass.data.StudentItem;
 
 /**
  * An activity representing a single Student detail screen. This
@@ -18,6 +23,11 @@ import android.view.MenuItem;
  */
 public class StudentDetailActivity extends AppCompatActivity {
 
+    Bundle extras;
+    String email;
+    StudentItem studentItem;
+    Intent emailIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +35,7 @@ public class StudentDetailActivity extends AppCompatActivity {
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);*/
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        extras = getIntent().getExtras();
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -78,5 +81,47 @@ public class StudentDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void EmailActivity(View view) {
+        CharSequence options[] = new CharSequence[] {"Parent", "Student"};
+        studentItem= StudentsContent.ITEM_MAP.get(extras.getString(StudentDetailFragment.ARG_ITEM_ID));
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Send email to:");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case 0:
+                        email=studentItem.parentEmail;
+                        break;
+                    case 1:
+                        email=studentItem.email;
+                        break;
+                    default:
+                        break;
+                }
+
+                emailIntent= new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("text/plain");
+
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+
+
+
+
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Email"));
+                } catch (android.content.ActivityNotFoundException ex) {
+
+                }
+
+            }
+
+        });
+        builder.show();
+
     }
 }

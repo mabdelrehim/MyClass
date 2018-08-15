@@ -39,7 +39,9 @@
         <activity android:name=".ClassOptionsActivity">
 
         </activity>
-        <activity android:name=".ClassListTestActivity">
+        <activity android:name=".ClassListTestActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

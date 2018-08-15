@@ -15,11 +15,13 @@ public class TakeAttendanceActivity extends AppCompatActivity {
 
 
     com.applandeo.materialcalendarview.CalendarView calendarView;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_attendance);
+        extras = getIntent().getExtras();
 
         calendarView = findViewById(R.id.calendarView);
         List<EventDay> events = new ArrayList<>();
@@ -35,6 +37,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
             public void onDayClick(EventDay eventDay) {
                 Intent intent = new Intent(TakeAttendanceActivity.this,
                         StudentCheckListActivity.class);
+                intent.putExtra("className", extras.getString("className"));
                 startActivity(intent);
             }
         });
