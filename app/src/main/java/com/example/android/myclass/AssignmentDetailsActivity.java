@@ -28,8 +28,8 @@ public class AssignmentDetailsActivity extends AppCompatActivity {
         toolbar.setTitle(extras.getString("assignmentName"));
 
         TextView tv = findViewById(R.id.assign_details);
-        tv.setText("Date Assigned: " + item.dateAssigned + "\n" +
-                    "Due Date: " + item.dueDate + "\n" +
+        tv.setText("Date Assigned: " + item.dateAssigned + "\n\n" +
+                    "Due Date: " + item.dueDate + "\n\n" +
                     "Details: " + item.details);
 
     }

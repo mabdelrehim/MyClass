@@ -89,8 +89,15 @@ public class AddAssignmentActivity extends AppCompatActivity {
                 assignmentName.getText().toString().equalsIgnoreCase("")||
                 details.getText().toString().equalsIgnoreCase(""))
         {
-            Toast.makeText(AddAssignmentActivity.this,"Fill in empty fields!",
-                    Toast.LENGTH_LONG).show();
+            if (editDate.getText().toString().equalsIgnoreCase("")) {
+                editDate.setError("This field cannot be empty.");
+            }
+            if (assignmentName.getText().toString().equalsIgnoreCase("")) {
+                assignmentName.setError("This field cannot be empty.");
+            }
+            if (details.getText().toString().equalsIgnoreCase("")) {
+                details.setError("This field cannot be empty");
+            }
         }
         else {
 
@@ -143,9 +150,10 @@ public class AddAssignmentActivity extends AppCompatActivity {
         String dateAssign = sdf.format(System.currentTimeMillis());
         String className = extras.getString("className");
 
-        int totalGrade;
+        int totalGrade = -1;
         int type = AssignmentItem.REGULAR_ASSIGNMENT;
         String assignmentType = "Regular Assignment";
+        Boolean inputCorrect = false;
 
         RadioGroup typeOptions = (RadioGroup) findViewById(R.id.typeOptions);
         int selectedId = typeOptions.getCheckedRadioButtonId();
@@ -153,43 +161,60 @@ public class AddAssignmentActivity extends AppCompatActivity {
         if (selectedId == R.id.quizRadio) {
             type = AssignmentItem.QUIZ;
             assignmentType = "Quiz";
-            totalGrade = Integer.valueOf(grade.getText().toString().trim());
+            if (grade.getText().toString().equalsIgnoreCase("")) {
+                grade.setError("This field cannot be empty for a quiz.");
+            } else {
+                totalGrade = Integer.valueOf(grade.getText().toString().trim());
+                EmailAssignment(totalGrade, assignmentType);
+                inputCorrect = true;
+            }
         } else if (selectedId == R.id.examRadio) {
             type = AssignmentItem.EXAM;
             assignmentType = "Exam";
-            totalGrade = Integer.valueOf(grade.getText().toString().trim());
+            if (grade.getText().toString().equalsIgnoreCase("")) {
+                grade.setError("This field cannot be empty for an exam.");
+            } else {
+                totalGrade = Integer.valueOf(grade.getText().toString().trim());
+                EmailAssignment(totalGrade, assignmentType);
+                inputCorrect = true;
+            }
         } else {
             // fall back to regular assignment option
             totalGrade = 5;
+            EmailAssignment(totalGrade, assignmentType);
+            inputCorrect = true;
         }
 
-        EmailAssignment(totalGrade, assignmentType);
 
+        if (inputCorrect) {
+            ContentValues cv = new ContentValues();
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_NAME, name);
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_TOTAL_GRADE, totalGrade);
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_DUE_DATE, due);
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_DETAILS, detailStr);
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_DATE_ASSIGNED, dateAssign);
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_TYPE, type);
+            cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME, className);
 
+            Uri uri = getContentResolver().insert(AssignmentsContract.AssignmentsEntry.CONTENT_URI, cv);
+            // Display the URI that's returned with a Toast
+            // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
+            // complete
+            if(uri != null) {
+                Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            }
 
-        ContentValues cv = new ContentValues();
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_NAME, name);
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_TOTAL_GRADE, totalGrade);
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_DUE_DATE, due);
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_DETAILS, detailStr);
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_DATE_ASSIGNED, dateAssign);
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_ASSIGNMENT_TYPE, type);
-        cv.put(AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME, className);
-
-        Uri uri = getContentResolver().insert(AssignmentsContract.AssignmentsEntry.CONTENT_URI, cv);
-        // Display the URI that's returned with a Toast
-        // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
-        // complete
-        if(uri != null) {
-            Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            // Finish activity (this returns back to MainActivity)
+            finish();
+        } else {
+            Toast.makeText(this, "Incorrect input. All required fields must be filled.",
+                    Toast.LENGTH_LONG).show();
         }
 
-        // Finish activity (this returns back to MainActivity)
-        finish();
 
     }
 
-    public void DueDateAct(View view) {
+    public void dueDateAct(View view) {
         new DatePickerDialog(context, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();

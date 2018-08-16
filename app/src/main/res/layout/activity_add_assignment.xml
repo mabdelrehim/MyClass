@@ -44,7 +44,7 @@
         android:ems="10"
         android:hint="Due Date:"
         android:inputType="date"
-        android:onClick="DueDateAct"
+        android:onClick="dueDateAct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

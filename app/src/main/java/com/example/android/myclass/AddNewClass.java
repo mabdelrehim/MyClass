@@ -26,24 +26,27 @@ public class AddNewClass extends AppCompatActivity {
 
         EClassname =  findViewById(R.id.class_name_edit);
 
-
-        mClassName =  EClassname.getText().toString().trim();
-
-
-        ContentValues cv = new ContentValues();
-        cv.put(ClassContract.ClassEntry.COLUMN_CLASS_NAME, mClassName);
+        if (EClassname.getText().toString().equalsIgnoreCase("")) {
+            EClassname.setError("This field cannot be empty.");
+        } else {
+            mClassName =  EClassname.getText().toString().trim();
 
 
-        // Insert the content values via a ContentResolver
-        Uri uri = getContentResolver().insert(ClassContract.ClassEntry.CONTENT_URI, cv);
-        // Display the URI that's returned with a Toast
-        // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
-        // complete
-        if (uri != null) {
-            Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            ContentValues cv = new ContentValues();
+            cv.put(ClassContract.ClassEntry.COLUMN_CLASS_NAME, mClassName);
+
+
+            // Insert the content values via a ContentResolver
+            Uri uri = getContentResolver().insert(ClassContract.ClassEntry.CONTENT_URI, cv);
+            // Display the URI that's returned with a Toast
+            // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
+            // complete
+            if (uri != null) {
+                Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            // Finish activity (this returns back to MainActivity)
+            finish();
         }
-
-        // Finish activity (this returns back to MainActivity)
-        finish();
     }
 }
