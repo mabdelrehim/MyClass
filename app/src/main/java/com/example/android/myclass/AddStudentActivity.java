@@ -46,30 +46,50 @@ public class AddStudentActivity extends AppCompatActivity {
     public void onClickAddTask(View view) {
 
 
+        if (Ename.getText().toString().trim().equalsIgnoreCase("") ||
+                ESEmail.getText().toString().trim().equalsIgnoreCase("") ||
+                EPEmail.getText().toString().trim().equalsIgnoreCase("")) {
 
-        mName = (String) Ename.getText().toString().trim();
-        mEmail = (String) ESEmail.getText().toString().trim();
-        mPEmail = (String) EPEmail.getText().toString().trim();
-        mClass = extras.getString("className");
 
-        ContentValues cv = new ContentValues();
-        cv.put(StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME, mName);
-        cv.put(StudentsContract.StudentsEntry.COLUMN_CLASS_NAME, mClass);
-        cv.put(StudentsContract.StudentsEntry.DAYS_ABSENT, 0);
-        cv.put(StudentsContract.StudentsEntry.EMAIL, mEmail);
-        cv.put(StudentsContract.StudentsEntry.PARENT_EMAIL, mPEmail);
+            if (Ename.getText().toString().trim().equalsIgnoreCase(""))
+                Ename.setError("This field cannot be empty");
 
-        // Insert the content values via a ContentResolver
-        Uri uri = getContentResolver().insert(StudentsContract.StudentsEntry.CONTENT_URI, cv);
-        // Display the URI that's returned with a Toast
-        // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
-        // complete
-        if(uri != null) {
-            Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            if (ESEmail.getText().toString().trim().equalsIgnoreCase(""))
+                ESEmail.setError("This field cannot be empty.");
+
+            if (EPEmail.getText().toString().trim().equalsIgnoreCase(""))
+                EPEmail.setError("This field cannot be empty");
+
+
+        } else {
+
+
+            mName = (String) Ename.getText().toString().trim();
+            mEmail = (String) ESEmail.getText().toString().trim();
+            mPEmail = (String) EPEmail.getText().toString().trim();
+            mClass = extras.getString("className");
+
+            ContentValues cv = new ContentValues();
+            cv.put(StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME, mName);
+            cv.put(StudentsContract.StudentsEntry.COLUMN_CLASS_NAME, mClass);
+            cv.put(StudentsContract.StudentsEntry.DAYS_ABSENT, 0);
+            cv.put(StudentsContract.StudentsEntry.EMAIL, mEmail);
+            cv.put(StudentsContract.StudentsEntry.PARENT_EMAIL, mPEmail);
+
+            // Insert the content values via a ContentResolver
+            Uri uri = getContentResolver().insert(StudentsContract.StudentsEntry.CONTENT_URI, cv);
+            // Display the URI that's returned with a Toast
+            // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
+            // complete
+            if(uri != null) {
+                Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            // Finish activity (this returns back to MainActivity)
+            finish();
         }
 
-        // Finish activity (this returns back to MainActivity)
-        finish();
+
 
     }
 }

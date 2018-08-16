@@ -47,34 +47,54 @@ public class AddStudentDeliveredActivity extends Activity {
     }
 
     public void saveAssignStd(View view) {
-        String studentName = name.getText().toString().trim();
-        String selection = StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME + "=?";
-        String[] selectionArgs = {studentName};
-        Cursor cursor = getContentResolver().query(StudentsContract.StudentsEntry.CONTENT_URI,
-                null,
-                selection,
-                selectionArgs,
-                null);
-        if (cursor != null && cursor.getCount() > 0) {
-            // there is a student with that name in the class
-            cursor.moveToNext();
-            int stdidindex = cursor.getColumnIndex(StudentsContract.StudentsEntry._ID);
-            int stdid = cursor.getInt(stdidindex);
-            ContentValues cv = new ContentValues();
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME, studentName);
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID, item.id);
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_NAME, item.assignmentName);
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME, item.className);
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_COMMENTS, comments.getText().toString().trim());
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_GRADE, grade.getText().toString().trim());
-            cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID, stdid);
 
-            Uri uri = getContentResolver().insert(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI, cv);
-            finish();
+        if (name.getText().toString().trim().equalsIgnoreCase("") ||
+                grade.getText().toString().trim().equalsIgnoreCase("")||
+                comments.getText().toString().trim().equalsIgnoreCase("")) {
+
+            if (name.getText().toString().trim().equalsIgnoreCase(""))
+                name.setError("This field cannot be empty");
+            if (grade.getText().toString().trim().equalsIgnoreCase(""))
+                grade.setError("This field cannot be empty");
+            if (comments.getText().toString().trim().equalsIgnoreCase(""))
+                comments.setError("This field cannot be empty. Write 'None' if there are no comments.");
 
         } else {
-            name.setError("Can't find a student with that name");
+
+            String studentName = name.getText().toString().trim();
+            String selection = StudentsContract.StudentsEntry.COLUMN_STUDENT_NAME + "=?";
+            String[] selectionArgs = {studentName};
+            Cursor cursor = getContentResolver().query(StudentsContract.StudentsEntry.CONTENT_URI,
+                    null,
+                    selection,
+                    selectionArgs,
+                    null);
+            if (cursor != null && cursor.getCount() > 0) {
+                // there is a student with that name in the class
+                cursor.moveToNext();
+                int stdidindex = cursor.getColumnIndex(StudentsContract.StudentsEntry._ID);
+                int stdid = cursor.getInt(stdidindex);
+                ContentValues cv = new ContentValues();
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_NAME, studentName);
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID, item.id);
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_NAME, item.assignmentName);
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME, item.className);
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_COMMENTS, comments.getText().toString().trim());
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_GRADE, grade.getText().toString().trim());
+                cv.put(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID, stdid);
+
+                Uri uri = getContentResolver().insert(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI, cv);
+                finish();
+
+            } else {
+                name.setError("Can't find a student with that name");
+            }
+
         }
+
+
+
+
     }
 
 }
