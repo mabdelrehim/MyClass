@@ -26,6 +26,7 @@ public class AssignmentDetailsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(extras.getString("assignmentName"));
+        setSupportActionBar(toolbar);
 
         TextView tv = findViewById(R.id.assign_details);
         tv.setText("Date Assigned: " + item.dateAssigned + "\n\n" +

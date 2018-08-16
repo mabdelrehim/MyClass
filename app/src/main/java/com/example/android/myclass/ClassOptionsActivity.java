@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +21,11 @@ public class ClassOptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_options);
 
 
+
         extras = getIntent().getExtras();
-        Log.d(TAG, "onCreate: class name: "+ extras.getString("ClassName"));
+        Log.d(TAG, "onCreate: class name: "+ extras.getString("className"));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(extras.getString("className"));
         /*Button attendance = (Button) findViewById(R.id.take_attendance_button);
         attendance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,8 +59,17 @@ public class ClassOptionsActivity extends AppCompatActivity {
     }
 
     public void startAttendance(View view) {
-        Context context = view.getContext();
+
+        //skipping the calendar view if we're not keeping track of exact dates
+
+        /*Context context = view.getContext();
         Intent i = new Intent(context, TakeAttendanceActivity.class);
+        i.putExtra("className", extras.getString("className"));
+        context.startActivity(i);*/
+
+        Context context = view.getContext();
+        Intent i = new Intent(ClassOptionsActivity.this,
+                StudentCheckListActivity.class);
         i.putExtra("className", extras.getString("className"));
         context.startActivity(i);
     }

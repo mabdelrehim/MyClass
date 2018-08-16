@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".StudentListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".StudentDetailActivity"
             android:label="@string/title_student_detail"
@@ -22,7 +24,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.myclass.StudentListActivity" />
         </activity>
-        <activity android:name=".AddStudentActivity" />
+
+        <activity
+            android:name=".AddStudentActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
             android:name=".data.MyContentProvider"
@@ -34,33 +39,57 @@
             android:name=".AssignmentListActivity"
             android:label="@string/title_activity_assignment_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TakeAttendanceActivity" />
-        <activity android:name=".StudentCheckListActivity" />
-        <activity android:name=".ClassOptionsActivity">
 
-        </activity>
-        <activity android:name=".ClassListTestActivity"
+        <activity
+            android:name=".TakeAttendanceActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".StudentCheckListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ClassOptionsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ClassListTestActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddAssignmentActivity" />
-        <activity android:name=".AssignmentDetailsActivity" />
+
+        <activity
+            android:name=".AddAssignmentActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".AssignmentDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".StudentsDeliveredActivity"
-            android:label="@string/title_activity_students_delivered" />
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".AddStudentDeliveredActivity"
-            android:label="@string/title_activity_add_student_delivered" />
-        <activity android:name=".StudentDeliveredDetailActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".StudentDeliveredDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".EditDeliveredAssignmentActivity"
-            android:label="@string/title_activity_edit_delivered_assignment" />
-        <activity android:name=".AddNewClass"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".AddNewClass"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

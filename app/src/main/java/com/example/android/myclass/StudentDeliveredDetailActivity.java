@@ -29,6 +29,7 @@ public class StudentDeliveredDetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(item.studentName + "-" + item.assignmentName);
+        setSupportActionBar(toolbar);
 
         Cursor c = getContentResolver().query(AssignmentsContract.AssignmentsEntry.CONTENT_URI,
                 null,

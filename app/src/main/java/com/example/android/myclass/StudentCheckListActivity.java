@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.android.myclass.data.MyDBHelper;
@@ -32,6 +33,10 @@ public class StudentCheckListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_check_list);
         extras = getIntent().getExtras();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Check Absent Students");
+        setSupportActionBar(toolbar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mDatabaseHelper = new MyDBHelper(this);

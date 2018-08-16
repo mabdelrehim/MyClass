@@ -63,8 +63,8 @@ public class AssignmentListActivity extends AppCompatActivity implements
         extras = getIntent().getExtras();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         toolbar.setTitle("Assignments");
+        setSupportActionBar(toolbar);
 
         //commented code for larger screen implementation
         /*if (findViewById(R.id.student_detail_container) != null) {

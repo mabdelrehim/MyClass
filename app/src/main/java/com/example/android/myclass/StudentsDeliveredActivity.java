@@ -43,6 +43,7 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Students Who Delivered");
+        setSupportActionBar(toolbar);
 
         extras = getIntent().getExtras();
 
