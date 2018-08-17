@@ -30,6 +30,7 @@ public class StudentDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private StudentItem mItem;
+    private String collectedGrades;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,6 +56,10 @@ public class StudentDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.studentName);
             }
         }
+
+        if (getArguments().containsKey("collected")) {
+            collectedGrades = getArguments().getString("collected");
+        }
     }
 
     @Override
@@ -64,7 +69,8 @@ public class StudentDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.student_detail)).setText(mItem.details);
+            ((TextView) rootView.findViewById(R.id.student_detail)).setText(collectedGrades +
+                    "\n\n" + mItem.details);
         }
 
         return rootView;

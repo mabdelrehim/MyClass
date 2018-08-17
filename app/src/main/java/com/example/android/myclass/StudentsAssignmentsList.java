@@ -5,14 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
-import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,45 +22,48 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-
+import com.example.android.myclass.content.AssignmentsStudentsContent;
 import com.example.android.myclass.data.AssignmentStudentContract;
 import com.example.android.myclass.data.AssignmentStudentItem;
+import com.example.android.myclass.data.ClassContract;
+import com.example.android.myclass.data.ClassItem;
 
-public class StudentsDeliveredActivity extends AppCompatActivity implements
+public class StudentsAssignmentsList extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
+
     // Constants for logging and referring to a unique loader
-    private static final String TAG = StudentListActivity.class.getSimpleName();
+    private static final String TAG = StudentsAssignmentsList.class.getSimpleName();
     private static final int TASK_LOADER_ID = 0;
 
     // Member variables for the adapter and RecyclerView
-    private StudentsDeliveredCursorAdapter mAdapter;
+    private AssignmentsStudentsCursorAdapter mAdapter;
     private boolean mTwoPane;
     RecyclerView mRecyclerView;
     Bundle extras;
     Context thisContext;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_students_delivered);
+        setContentView(R.layout.activity_students_assignments_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Students Who Delivered");
-        setSupportActionBar(toolbar);
-
-        thisContext = this;
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Assignments he did");
 
         extras = getIntent().getExtras();
+        thisContext = this;
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.studentsDelivered_list);
+        // Set the RecyclerView to its corresponding view
+        mRecyclerView = findViewById(R.id.studentsAssignments_list);
 
         // Set the layout for the RecyclerView to be a linear layout, which measures and
         // positions items within a RecyclerView into a linear list
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the adapter and attach it to the RecyclerView
-        mAdapter = new StudentsDeliveredCursorAdapter(this, this, mTwoPane);
+        mAdapter = new AssignmentsStudentsCursorAdapter(this, this, mTwoPane);
         mRecyclerView.setAdapter(mAdapter);
 
         /*
@@ -100,7 +104,8 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
 
                         // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
                         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
-                                StudentsDeliveredActivity.this);
+                                StudentsAssignmentsList.this);
+
 
                         Toast.makeText(getApplicationContext(), "Submission Deleted", Toast.LENGTH_SHORT).show();
                     }
@@ -120,26 +125,6 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
             }
         }).attachToRecyclerView(mRecyclerView);
 
-
-        /*
-         Set the Floating Action Button (FAB) to its corresponding View.
-         Attach an OnClickListener to it, so that when it's clicked, a new intent will be created
-         to launch the AddTaskActivity.
-         */
-        FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
-
-        fabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // code here
-
-                Context context = view.getContext();
-                Intent intent = new Intent(context, AddStudentDeliveredActivity.class);
-                intent.putExtra("assignmentId", extras.getString("assignmentId"));
-
-                context.startActivity(intent);
-            }
-        });
 
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
@@ -198,9 +183,10 @@ public class StudentsDeliveredActivity extends AppCompatActivity implements
                 // [Hint] use a try/catch block to catch any errors in loading data
 
                 try {
-                    String selection = AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID
+
+                    String selection = AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID
                             + "=?";
-                    String[] selectionArgs = {extras.getString("assignmentId")};
+                    String[] selectionArgs = {extras.getString("studentId")};
                     return getContentResolver().query(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI,
                             null,
                             selection,

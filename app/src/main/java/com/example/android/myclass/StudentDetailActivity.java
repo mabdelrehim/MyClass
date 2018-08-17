@@ -1,7 +1,9 @@
 package com.example.android.myclass;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,8 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.example.android.myclass.content.StudentsContent;
+import com.example.android.myclass.data.AssignmentStudentContract;
+import com.example.android.myclass.data.AssignmentsContract;
 import com.example.android.myclass.data.StudentItem;
 
 /**
@@ -35,7 +39,45 @@ public class StudentDetailActivity extends AppCompatActivity {
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);*/
 
+
         extras = getIntent().getExtras();
+
+        studentItem= StudentsContent.ITEM_MAP.get(extras.getString(StudentDetailFragment.ARG_ITEM_ID));
+        String assignmentSelection = AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME + "=?";
+        String[] assignmentSelectionArgs = {studentItem.studentClass};
+        Cursor assignments = getContentResolver().query(AssignmentsContract.AssignmentsEntry.CONTENT_URI,
+                null,
+                assignmentSelection,
+                assignmentSelectionArgs,
+                null);
+
+        String assignStdSelection = AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_ID + "=?";
+        String[] assignStdSelectionArgs = {Integer.toString(studentItem.id)};
+        Cursor assignStds = getContentResolver().query(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI,
+                null,
+                assignStdSelection,
+                assignStdSelectionArgs,
+                null);
+
+        String collectedGrades;
+        int collected = 0;
+        int total = 0;
+
+        if ((assignments != null && assignments.getCount() != 0) &&
+                (assignStds != null && assignStds.getCount() != 0)) {
+            while (assignments.moveToNext()) {
+                total += assignments.getInt(assignments
+                        .getColumnIndex(AssignmentsContract.AssignmentsEntry.COLUMN_TOTAL_GRADE));
+            }
+            while (assignStds.moveToNext()) {
+                collected += assignStds.getInt(assignStds
+                        .getColumnIndex(AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_STUDENT_GRADE));
+            }
+            collectedGrades = "Collected grades: " + collected + " out of " + total;
+        } else {
+            collectedGrades = "No grades yet";
+        }
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -58,6 +100,7 @@ public class StudentDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(StudentDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(StudentDetailFragment.ARG_ITEM_ID));
+            arguments.putString("collected", collectedGrades);
             StudentDetailFragment fragment = new StudentDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -81,6 +124,15 @@ public class StudentDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickViewAssign(View view) {
+        Context c = view.getContext();
+        Intent viewAssignmentsIntent = new Intent(StudentDetailActivity.this,
+                StudentsAssignmentsList.class);
+        studentItem= StudentsContent.ITEM_MAP.get(extras.getString(StudentDetailFragment.ARG_ITEM_ID));
+        viewAssignmentsIntent.putExtra("studentId", Integer.toString(studentItem.id));
+        c.startActivity(viewAssignmentsIntent);
     }
 
     public void EmailActivity(View view) {

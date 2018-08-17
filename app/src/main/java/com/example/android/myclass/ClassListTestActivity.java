@@ -1,5 +1,7 @@
 package com.example.android.myclass;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +18,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.android.myclass.data.AssignmentStudentContract;
+import com.example.android.myclass.data.AssignmentsContract;
 import com.example.android.myclass.data.ClassContract;
 import com.example.android.myclass.data.ClassItem;
 import com.example.android.myclass.data.StudentItem;
@@ -41,11 +47,14 @@ public class ClassListTestActivity extends AppCompatActivity implements
     private boolean mTwoPane;
     RecyclerView mRecyclerView;
 
+    Context thisContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_list_test);
+
+        thisContext = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Classes");
@@ -87,24 +96,60 @@ public class ClassListTestActivity extends AppCompatActivity implements
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // Here is where you'll implement swipe to delete
 
-                // COMPLETED (1) Construct the URI for the item to delete
-                //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
-                // Retrieve the id of the task to delete
-                ClassItem item = (ClassItem) viewHolder.itemView.getTag();
 
-                // Build appropriate uri with String row id appended
-                String stringId = Integer.toString(item.id);
-                Uri uri = ClassContract.ClassEntry.CONTENT_URI;
-                uri = uri.buildUpon().appendPath(stringId).build();
+                final ClassItem item = (ClassItem) viewHolder.itemView.getTag();
 
-                // COMPLETED (2) Delete a single row of data using a ContentResolver
-                getContentResolver().delete(uri, null, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+                builder.setTitle("Delete!");
+                builder.setMessage("Are you sure you want to delete this class? This action cannot be undone.");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
-                getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
-                        ClassListTestActivity.this);
+                        // Build appropriate uri with String row id appended
+                        String stringId = Integer.toString(item.id);
+                        Uri uri = ClassContract.ClassEntry.CONTENT_URI;
+                        uri = uri.buildUpon().appendPath(stringId).build();
+
+                        String studentSelection = StudentsContract.StudentsEntry.COLUMN_CLASS_NAME + "=?";
+                        String assignSelection = AssignmentsContract.AssignmentsEntry.COLUMN_CLASS_NAME + "=?";
+                        String assignStdSelection = AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_CLASS_NAME + "=?";
+
+                        String[] selectionArgs = {item.className};
+
+
+                        // COMPLETED (2) Delete a single row of data using a ContentResolver
+                        getContentResolver().delete(uri, null, null);
+
+                        int studentsDeleted = getContentResolver().delete(StudentsContract.StudentsEntry.CONTENT_URI,
+                                studentSelection, selectionArgs);
+
+                        int assignDeleted = getContentResolver().delete(AssignmentsContract.AssignmentsEntry.CONTENT_URI,
+                                assignSelection, selectionArgs);
+
+                        int assignStdDeleted = getContentResolver().delete(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI,
+                                assignStdSelection, selectionArgs);
+
+                        // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
+                        getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
+                                ClassListTestActivity.this);
+
+                        Toast.makeText(getApplicationContext(), "Class Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
+
+
 
             }
         }).attachToRecyclerView(mRecyclerView);

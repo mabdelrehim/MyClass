@@ -1,6 +1,8 @@
 package com.example.android.myclass;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.myclass.data.AssignmentItem;
+import com.example.android.myclass.data.AssignmentStudentContract;
 import com.example.android.myclass.data.AssignmentsContract;
 import com.example.android.myclass.data.StudentItem;
 import com.example.android.myclass.data.StudentsContract;
@@ -61,6 +65,7 @@ public class AssignmentListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_assignment_list);
 
         extras = getIntent().getExtras();
+        final Context thisContext = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Assignments");
@@ -102,24 +107,56 @@ public class AssignmentListActivity extends AppCompatActivity implements
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // Here is where you'll implement swipe to delete
 
-                // COMPLETED (1) Construct the URI for the item to delete
-                //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
-                // Retrieve the id of the task to delete
-                AssignmentItem item = (AssignmentItem) viewHolder.itemView.getTag();
+                final AssignmentItem item = (AssignmentItem) viewHolder.itemView.getTag();
 
-                // Build appropriate uri with String row id appended
-                String stringId = Integer.toString(item.id);
-                Uri uri = AssignmentsContract.AssignmentsEntry.CONTENT_URI;
-                uri = uri.buildUpon().appendPath(stringId).build();
+                AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+                builder.setTitle("Delete!");
+                builder.setMessage("Are you sure you want to delete this assignment?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                // COMPLETED (2) Delete a single row of data using a ContentResolver
-                getContentResolver().delete(uri, null, null);
+                        // Here is where you'll implement swipe to delete
 
-                // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
-                getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
-                        AssignmentListActivity.this);
+                        // COMPLETED (1) Construct the URI for the item to delete
+                        //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
+                        // Retrieve the id of the task to delete
+
+
+                        // Build appropriate uri with String row id appended
+                        String stringId = Integer.toString(item.id);
+                        Uri uri = AssignmentsContract.AssignmentsEntry.CONTENT_URI;
+                        uri = uri.buildUpon().appendPath(stringId).build();
+
+                        // COMPLETED (2) Delete a single row of data using a ContentResolver
+                        getContentResolver().delete(uri, null, null);
+
+                        String selection =
+                                AssignmentStudentContract.AssignmentsStudentsEntry.COLUMN_ASSIGNMENT_ID + "=?";
+                        String[] selectionArgs = {stringId};
+
+                        getContentResolver().delete(AssignmentStudentContract.AssignmentsStudentsEntry.CONTENT_URI,
+                                selection,
+                                selectionArgs);
+
+                        // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
+                        getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null,
+                                AssignmentListActivity.this);
+
+                        Toast.makeText(getApplicationContext(), "Assignment Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
 
             }
         }).attachToRecyclerView(mRecyclerView);
