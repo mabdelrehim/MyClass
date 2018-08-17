@@ -129,7 +129,6 @@ public class StudentCheckListActivity extends AppCompatActivity {
 //        }
 
 
-        Intent intent = new Intent(this, ClassOptionsActivity.class);
-        startActivity(intent);
+        finish();
     }
 }
