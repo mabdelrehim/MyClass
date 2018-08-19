@@ -45,9 +45,9 @@ public class AddNewClass extends AppCompatActivity {
             // Display the URI that's returned with a Toast
             // [Hint] Don't forget to call finish() to return to MainActivity after this insert is
             // complete
-            if (uri != null) {
+            /*if (uri != null) {
                 Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
-            }
+            }*/
 
             // Finish activity (this returns back to MainActivity)
             finish();

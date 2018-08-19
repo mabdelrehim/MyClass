@@ -50,7 +50,7 @@ public class StudentsAssignmentsList extends AppCompatActivity implements
         setContentView(R.layout.activity_students_assignments_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Assignments he did");
+        toolbar.setTitle("Assignments Done");
 
         extras = getIntent().getExtras();
         thisContext = this;
