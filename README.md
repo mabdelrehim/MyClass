@@ -4,6 +4,8 @@
  - Yasmine Medhat
  - Loujaina Ragheb
  - Effat Hassan
+ 
+ An android application that helps teachers evaluate students and easily connect with parents
 
 resources:
 
